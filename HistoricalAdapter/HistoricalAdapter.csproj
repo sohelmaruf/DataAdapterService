@@ -1,0 +1,784 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E04A732D-C23C-47EF-8232-6AA950ECAAE6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HistoricalAdapter</RootNamespace>
+    <AssemblyName>HistoricalAdapter</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="KBCsv, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc96fa93a217f7a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\KBCsv.5.0.0\lib\netstandard1.0\KBCsv.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.1\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdapterConstants.cs" />
+    <Compile Include="AppLogger.cs" />
+    <Compile Include="AuthHeaderInserter.cs" />
+    <Compile Include="Connected Services\Five9AdminService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="EncDec.cs" />
+    <Compile Include="HistoricalAdapterService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HistoricalAdapterService.Designer.cs">
+      <DependentUpon>HistoricalAdapterService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addDispositionsToCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addDNISToCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addListsToCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addNumbersToDncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addPromptTTSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addPromptWavInlineResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addPromptWavResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addRecordToListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addRecordToListSimpleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addSkillAudioFileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addSkillsToCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addToListCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addToListFtpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.addToListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.adminConfigTranslation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.agentGroup.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.asyncAddRecordsToListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.asyncDeleteRecordsFromListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.asyncUpdateCampaignDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.asyncUpdateCrmRecordsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.autodialCampaign.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.callVariable.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.callVariablesGroup.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.campaign.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.campaignProfileFilter.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.campaignProfileInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.campaignState.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.campaignStrategy.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.checkDncForNumbersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.contactField.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.contactsLookupResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createAgentGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createAutodialCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createCallVariableResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createCallVariablesGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createCampaignProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createContactFieldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createDispositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createInboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createIVRScriptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createOutboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createReasonCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createSkillResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createUserProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.createWebConnectorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.crmImportResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteAgentGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteAllFromListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteCallVariableResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteCallVariablesGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteCampaignProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteContactFieldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromContactsCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromContactsFtpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromContactsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromListCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromListFtpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteFromListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteIVRScriptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteLanguagePromptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deletePromptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteReasonCodeByTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteReasonCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteRecordFromListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteSkillResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteUserProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.deleteWebConnectorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.dialingRule.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.disposition.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.dispositionCount.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.dispositionsImportResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.forceStopCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAgentAuditReportCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAgentAuditReportResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAgentGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAgentGroupsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getApiVersionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAutodialCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getAvailableLocalesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCallCountersStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCallLogReportCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCallLogReportResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCallVariableGroupsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCallVariablesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignDNISListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignProfileDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignProfileFilterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignProfilesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCampaignStrategiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getConfigurationTranslationsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getContactFieldsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getContactRecordsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getCrmImportResultResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getDialingRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getDispositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getDispositionsImportResultResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getDNISListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getInboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getIVRScriptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getListImportResultResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getListsForCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getListsInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getLocaleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getOutboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getPromptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getPromptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getReasonCodeByTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getReasonCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getReportResultCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getReportResultResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillAudioFilesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillsInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getSkillVoicemailGreetingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUserGeneralInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUserInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUserProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUserProfilesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUsersGeneralInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUsersInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getUserVoicemailGreetingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getVCCConfigurationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.getWebConnectorsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.importIdentifier.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.inboundCampaign.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.isImportRunningResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.isReportRunningResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.ivrScriptDef.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.limitTimeoutState.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.listImportResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.listInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.listState.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyAgentGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyAutodialCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCallVariableResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCallVariablesGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCampaignListsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCampaignProfileCrmCriteriaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCampaignProfileDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCampaignProfileFilterOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyCampaignProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyContactFieldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyDispositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyInboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyIVRScriptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyOutboundCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyPromptTTSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyPromptWavInlineResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyPromptWavResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyReasonCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifySkillResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyUserCannedReportsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyUserProfileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyUserProfileSkillsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyUserProfileUserListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyVCCConfigurationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.modifyWebConnectorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.outboundCampaign.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.promptInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.reasonCode.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeDispositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeDispositionsFromCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeDNISFromCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeListsFromCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeNumbersFromDncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeSkillAudioFileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.removeSkillsFromCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.renameCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.renameDispositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.reportRowData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.resetCampaignDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.resetCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.resetListPositionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.runReportResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setCampaignStrategiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setDefaultIVRScheduleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setDialingRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setLocaleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setSkillVoicemailGreetingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.setUserVoicemailGreetingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.skill.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.skillInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.startCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.stopCampaignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateConfigurationTranslationsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateContactsCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateContactsFtpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateContactsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateCrmRecordResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateDispositionsCsvResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateDispositionsFtpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.updateDispositionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userGeneralInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userProfile.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userSkillAddResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userSkillModifyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.userSkillRemoveResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.vccConfiguration.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.versions.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\HistoricalAdapter.Five9AdminService.webConnector.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Five9AdminService\swaref.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Five9AdminService\WsAdminService.wsdl" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HistoricalAdapterService.resx">
+      <DependentUpon>HistoricalAdapterService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Aspect.png" />
+    <Content Include="aspect_icon.ico" />
+    <Content Include="Background.GIF" />
+    <None Include="Connected Services\Five9AdminService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\Five9AdminService\configuration.svcinfo" />
+    <None Include="Connected Services\Five9AdminService\configuration91.svcinfo" />
+    <Content Include="lib\log4net.dll" />
+    <Content Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\Five9AdminService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebDavClient\WebDAVClient.csproj">
+      <Project>{1ea5956b-b832-400e-b252-c34534dd2846}</Project>
+      <Name>WebDAVClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
